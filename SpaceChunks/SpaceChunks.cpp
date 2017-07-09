@@ -1,32 +1,3 @@
-/*
-|-----------------------------------------------------------
-| Space Chunks - Created by Dominic Maas
-|-----------------------------------------------------------
-| Feel Free to use this source code in your own projects.
-| And also feel free to show me your own projects!
-|-----------------------------------------------------------
-| Controls:
-| 
-| W - Forward
-| A - Left
-| S - Back
-| D - Right
-| 
-| F2 - Resets Players Position
-| F3 - Toggles Debug Information
-|
-| Q - Sets a block
-| E - Removes a block
-|-----------------------------------------------------------
-| Whats To Come:
-|
-| - SkyBox
-| - Smooth Blocks
-| - Infinite World
-| - Block Picking
-| - Nice Lighting System
-*/
-
 #include "XyEngine.h"
 #include "Player.h"
 #include "Chunk.h"
@@ -136,8 +107,8 @@ void Render()
 			// Set Rendering mode to 2D
 			// RenderText(x,y, string);
 			engine->Set2D();
-				engine->RenderText(5, 0, "Space Chunks Alpha 0.3.1");
-				engine->RenderText(5, 15, "Copyright © 2014 - 2016. Provided Under MIT License");
+				engine->RenderText(5, 0, "Space Chunks Alpha 0.3.2, XyEngine Version: " + std::string(engine->GetXyEngineVersion()));
+				engine->RenderText(5, 15, "Copyright © 2014 - 2017 Dominic Maas, Provided under the MIT license");
 
 				engine->RenderText(5, 45, "Render FPS: " + engine->ConvertIntToString((int)engine->GetFPS()));
 				engine->RenderText(5, 60, "Physics FPS: " + engine->ConvertIntToString((int)engine->GetPhysicsFPS()));
