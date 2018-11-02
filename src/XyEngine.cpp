@@ -226,6 +226,12 @@ void XyEngine::RenderText(float x, float y, const std::string message)
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	TTF_Font * m_font = TTF_OpenFont("fonts/font3.ttf", 14);
+
+	if (!m_font) 
+	{
+		printf("TTF_OpenFont: %s\n", TTF_GetError());
+	}
+
 	SDL_Surface * sFont = TTF_RenderText_Blended(m_font, message.c_str(), color);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

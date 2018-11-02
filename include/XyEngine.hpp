@@ -1,7 +1,7 @@
 ﻿#ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "SDL/SDL.h"
+#include "SDL2/SDL.h"
 #include <GL/glew.h>
 #include <GL/gl.h>
 #undef main
@@ -20,8 +20,8 @@
 #include <fstream>
 #include <string>
 #include <Time.hpp>
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 #include <sstream>
 
 
