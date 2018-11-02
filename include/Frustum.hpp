@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FRUSTUM_HPP
+#define FRUSTUM_HPP
+
 #include "XyEngine.hpp"
 
 class Frustum
@@ -177,3 +179,5 @@ public:
 		return true;
 	}
 };
+
+#endif // FRUSTUM_HPP

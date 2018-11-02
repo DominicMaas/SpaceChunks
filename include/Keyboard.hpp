@@ -1,4 +1,5 @@
-#pragma once
+#ifndef KEYBOARD_HPP
+#define KEYBOARD_HPP
 
 namespace XyEngine
 {
@@ -68,3 +69,5 @@ namespace XyEngine
 #define KEY_F23          0x86
 #define KEY_F24          0x87
 }
+
+#endif // KEYBOARD_HPP

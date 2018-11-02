@@ -1,3 +1,5 @@
+#define GLM_FORCE_RADIANS
+
 #include "XyEngine.hpp"
 #include "Player.hpp"
 #include "Chunk.hpp"
@@ -139,7 +141,7 @@ void UpdatePhysics()
 /*
 	Main Function for program
 */
-int main(int, char**)
+int main()
 {
 	// Create the engine, passing in the required functions
 	engine = new XyEngine(Init, Render, Input, UpdatePhysics);

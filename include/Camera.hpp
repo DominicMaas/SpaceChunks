@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAMERA_HPP
+#define CAMERA_HPP
 
 #include "XyEngine.hpp"
 
@@ -70,4 +71,4 @@ public:
 	}
 };
 
-
+#endif // CAMERA_HPP

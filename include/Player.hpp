@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 #include "XyEngine.hpp"
 #include "Camera.hpp"
@@ -52,5 +53,4 @@ private:
 	Camera* m_Camera;
 };
 
-
-
+#endif // PLAYER_HPP

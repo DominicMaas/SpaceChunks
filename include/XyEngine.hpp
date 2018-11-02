@@ -1,7 +1,9 @@
-﻿#pragma once
+﻿#ifndef ENGINE_HPP
+#define ENGINE_HPP
 
-#include "GL/glew.h"
 #include "SDL/SDL.h"
+#include <GL/glew.h>
+#include <GL/gl.h>
 #undef main
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
@@ -307,3 +309,5 @@ public:
 		}
 	}
 };
+
+#endif // ENGINE_HPP

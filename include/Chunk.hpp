@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CHUNK_HPP
+#define CHUNK_HPP
 
 #include "XyEngine.hpp"
 #include "WorldManager.hpp"
@@ -68,3 +69,5 @@ private:
 	GLuint m_pChunkID;
 	GLuint m_pTextureID;
 };
+
+#endif // CHUNK_HPP

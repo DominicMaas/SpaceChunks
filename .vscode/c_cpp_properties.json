@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/include/**",
                 "/usr/local/include/**",
+                "~/SFML-2.5.1/include/**",
                 "/usr/include/**",
                 "${workspaceRoot}/src"
             ],
@@ -12,7 +13,7 @@
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4

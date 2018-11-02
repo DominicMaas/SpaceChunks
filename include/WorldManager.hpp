@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WORLD_MANAGER_HPP
+#define WORLD_MANAGER_HPP
 
 // Includes for the World Manager Class
 #include "XyEngine.hpp"
@@ -106,3 +107,5 @@ public:
 
 	Chunk *GetChunk(glm::vec3 pos);
 };
+
+#endif // WORLD_MANAGER_HPP

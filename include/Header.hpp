@@ -1,7 +1,5 @@
-#pragma once
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#ifndef HEADER_HPP
+#define HEADER_HPP
 
 #include <GL/glew.h>
 #include <GL/GL.h>
@@ -21,3 +19,5 @@
 #ifndef M_PI
 #define M_PI = 3.14159265358979
 #endif
+
+#endif // HEADER_HPP
