@@ -1,4 +1,4 @@
-#include "WorldManager.h"
+#include "WorldManager.hpp"
 
 /*
 	Passes in the renderer to help render the chunks

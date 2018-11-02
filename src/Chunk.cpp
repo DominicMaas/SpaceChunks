@@ -1,6 +1,5 @@
-#include "Chunk.h"
-
-#include <GLM/gtc/noise.hpp>
+#include "Chunk.hpp"
+#include "GLM/gtc/noise.hpp"
 
 BlockType Chunk::GetTheoreticalBlock(glm::vec3 pos)
 {

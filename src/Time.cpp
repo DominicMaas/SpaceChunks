@@ -1,4 +1,4 @@
-#include "Time.h"
+#include "Time.hpp"
 #include <time.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(_WIN64) || defined(WIN64)

@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include <GL/glew.h>
-#include <SDL/SDL.h>
+#include "GL/glew.h"
+#include "SDL/SDL.h"
 #undef main
-#include <GLM/gtc/matrix_transform.hpp>
-#include <GLM/gtc/type_ptr.hpp>
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 #define GLM_FORCE_RADIANS
-#include <GLM/glm.hpp>
+#include "GLM/glm.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -17,11 +17,10 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include "Time.h"
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
+#include <Time.hpp>
+#include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
 #include <sstream>
-
 
 
 #ifndef M_PI

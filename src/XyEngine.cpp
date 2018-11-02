@@ -1,4 +1,4 @@
-#include "XyEngine.h"
+#include "XyEngine.hpp"
 
 XyEngine::XyEngine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)())
 {

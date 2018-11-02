@@ -1,8 +1,8 @@
 #pragma once
 
-#include "XyEngine.h"
-#include "WorldManager.h"
-#include "Block.h"
+#include "XyEngine.hpp"
+#include "WorldManager.hpp"
+#include "Block.hpp"
 
 // Set the World Manager class here to prevent compile issues
 class WorldManager;

@@ -1,6 +1,7 @@
 #pragma once
-#include "XyEngine.h"
-#include "Camera.h"
+
+#include "XyEngine.hpp"
+#include "Camera.hpp"
 
 class Player
 {

@@ -1,7 +1,7 @@
-#include "XyEngine.h"
-#include "Player.h"
-#include "Chunk.h"
-#include "WorldManager.h"
+#include "XyEngine.hpp"
+#include "Player.hpp"
+#include "Chunk.hpp"
+#include "WorldManager.hpp"
 
 Player *player;
 WorldManager *world;
@@ -108,7 +108,7 @@ void Render()
 			// RenderText(x,y, string);
 			engine->Set2D();
 				engine->RenderText(5, 0, "Space Chunks Alpha 0.3.2, XyEngine Version: " + std::string(engine->GetXyEngineVersion()));
-				engine->RenderText(5, 15, "Copyright © 2014 - 2017 Dominic Maas, Provided under the MIT license");
+				engine->RenderText(5, 15, "Copyright ï¿½ 2014 - 2017 Dominic Maas, Provided under the MIT license");
 
 				engine->RenderText(5, 45, "Render FPS: " + engine->ConvertIntToString((int)engine->GetFPS()));
 				engine->RenderText(5, 60, "Physics FPS: " + engine->ConvertIntToString((int)engine->GetPhysicsFPS()));

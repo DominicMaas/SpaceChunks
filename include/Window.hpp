@@ -1,6 +1,6 @@
 #pragma once
-#include "Header.h"
-#include "Event.h"
+#include "Header.hpp"
+#include "Event.hpp"
 
 namespace XyEngine
 {

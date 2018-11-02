@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Player.hpp"
 
 /*
 	Creates the player, takes in a position, rotation and rendering engine

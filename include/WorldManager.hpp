@@ -1,11 +1,11 @@
 #pragma once
 
 // Includes for the World Manager Class
-#include "XyEngine.h"
-#include "Chunk.h"
-#include "Block.h"
-#include "Player.h"
-#include "Frustum.h"
+#include "XyEngine.hpp"
+#include "Chunk.hpp"
+#include "Block.hpp"
+#include "Player.hpp"
+#include "Frustum.hpp"
 
 // Defines world sizes (The bigger the world, the longer it takes to create)
 #define WORLD_TINY 8

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BLOCK_HPP
+#define BLOCK_HPP
 
 /*
 	Enum of all the block types in the game
@@ -40,3 +41,4 @@ public:
 	void SetBlockType(BlockType type);
 };
 
+#endif // BLOCK_HPP
