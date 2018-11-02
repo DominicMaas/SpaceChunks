@@ -1,8 +1,8 @@
-#ifndef WORLD_MANAGER_HPP
-#define WORLD_MANAGER_HPP
+#ifndef WORLD_HPP
+#define WORLD_HPP
 
 // Includes for the World Manager Class
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 #include "Chunk.hpp"
 #include "Block.hpp"
 #include "Player.hpp"
@@ -29,14 +29,14 @@ class Chunk;
 	- Only Chunks in the fustrum are loaded
 	- Only Chunks in the players view distance are rendered
 */
-class WorldManager
+class World
 {
 private:
 	// A Vector containing all the loaded chunks
 	std::vector<Chunk*> m_ChunkList;
 
 	// Create the main renderer to actually render and position the chunks to the screen
-	XyEngine *m_renderer;
+	Engine *m_renderer;
 
 	// Vector3 Containing the camera position
 	glm::vec3 m_cameraPosition;
@@ -52,7 +52,7 @@ private:
 	int chunksFrustum;
 public:
 	// Passes in the renderer to help render the chunks
-	WorldManager(XyEngine *renderer);
+	World(Engine *renderer);
 
 	// Returns the chunk vector
 	std::vector<Chunk*> GetChunkList() { return m_ChunkList;   }
@@ -108,4 +108,4 @@ public:
 	Chunk *GetChunk(glm::vec3 pos);
 };
 
-#endif // WORLD_MANAGER_HPP
+#endif // WORLD_HPP

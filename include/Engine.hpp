@@ -33,7 +33,7 @@
 #define CHUNK_Y 64
 #define CHUNK_Z 16
 
-class XyEngine
+class Engine
 {
 private:
 	void(*m_InitFunc)();
@@ -72,7 +72,7 @@ private:
 	const char* XyEngine_Version = "XyEngine 0.3.6";
 
 public:
-	XyEngine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)());
+	Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)());
 
 	int CreateWindow(int width, int height, char* title, float frameRate);
 	int ReturnWithError(std::string err);
@@ -99,7 +99,7 @@ public:
 		return m_middleHeight;
 	}
 
-	~XyEngine();
+	~Engine();
 
 	int GetSeed()
 	{

@@ -40,7 +40,7 @@ BlockType Chunk::GetTheoreticalBlock(glm::vec3 pos, glm::vec3 offset0, glm::vec3
 
 }
 
-Chunk::Chunk(glm::vec3 pos, XyEngine *engine, WorldManager *world, int id)
+Chunk::Chunk(glm::vec3 pos, Engine *engine, World *world, int id)
 {
 	m_position = pos;
 	m_pRenderer = engine;

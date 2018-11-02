@@ -3,7 +3,7 @@
 /*
 	Creates the player, takes in a position, rotation and rendering engine
 */
-Player::Player(glm::vec3 pos, glm::vec3 rot, XyEngine* engine)
+Player::Player(glm::vec3 pos, glm::vec3 rot, Engine* engine)
 {
 	this->m_pEngine = engine;
 	this->m_pos = pos;

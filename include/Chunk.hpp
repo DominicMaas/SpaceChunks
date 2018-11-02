@@ -1,17 +1,17 @@
 #ifndef CHUNK_HPP
 #define CHUNK_HPP
 
-#include "XyEngine.hpp"
-#include "WorldManager.hpp"
+#include "Engine.hpp"
+#include "World.hpp"
 #include "Block.hpp"
 
 // Set the World Manager class here to prevent compile issues
-class WorldManager;
+class World;
 
 class Chunk
 {
 public:
-	Chunk(glm::vec3 pos, XyEngine *engine, WorldManager *world, int id);
+	Chunk(glm::vec3 pos, Engine *engine, World *world, int id);
 
 	void CreateChunk();
 
@@ -63,8 +63,8 @@ private:
 	int m_pChunkGlobalID;
 
 	// 
-	XyEngine *m_pRenderer;
-	WorldManager* m_pWorld;
+	Engine *m_pRenderer;
+	World* m_pWorld;
 
 	GLuint m_pChunkID;
 	GLuint m_pTextureID;

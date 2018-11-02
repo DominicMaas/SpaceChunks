@@ -1,13 +1,13 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 #include "Camera.hpp"
 
 class Player
 {
 public:
-	Player(glm::vec3 pos, glm::vec3 rot, XyEngine* engine);
+	Player(glm::vec3 pos, glm::vec3 rot, Engine* engine);
 
 	/*
 		Sets the players position
@@ -41,7 +41,7 @@ public:
 
 private:
 	// Rendering Engine
-	XyEngine* m_pEngine;
+	Engine* m_pEngine;
 
 	// Player position
 	glm::vec3 m_pos;

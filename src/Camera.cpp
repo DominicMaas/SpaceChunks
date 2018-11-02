@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-Camera::Camera(XyEngine* engine)
+Camera::Camera(Engine* engine)
 {
 	this->m_Engine = engine;
 }

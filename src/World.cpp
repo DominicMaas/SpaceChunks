@@ -1,9 +1,9 @@
-#include "WorldManager.hpp"
+#include "World.hpp"
 
 /*
 	Passes in the renderer to help render the chunks
 */
-WorldManager::WorldManager(XyEngine *renderer)
+World::World(Engine *renderer)
 {
 	// Sets the renderer
 	m_renderer = renderer;
@@ -13,7 +13,7 @@ WorldManager::WorldManager(XyEngine *renderer)
 	Updates the world and rubuild chunks that need to be rebuilded
 	- takes in the Camera position and Rotation
 */
-void WorldManager::Update(glm::vec3 cameraPosition, glm::vec3 cameraView)
+void World::Update(glm::vec3 cameraPosition, glm::vec3 cameraView)
 {
 	// Updates the Rebuild List
 	UpdateRebuildList(); 
@@ -34,7 +34,7 @@ void WorldManager::Update(glm::vec3 cameraPosition, glm::vec3 cameraView)
 /*
 	Goes through all the chunks, seeing which ones need to be rebuilt, then building them
 */
-void WorldManager::UpdateRebuildList()
+void World::UpdateRebuildList()
 {
 	// Perform a loop of all the chunks
 	for (int i = 0; i < m_ChunkList.size(); i++)
@@ -51,7 +51,7 @@ void WorldManager::UpdateRebuildList()
 /*
 	Renders only the chunks that can be seen on screen
 */
-void WorldManager::UpdateRenderList()
+void World::UpdateRenderList()
 {
 	// Set the number of chunks in the frustum to zero
 	chunksFrustum = 0;
@@ -100,7 +100,7 @@ void WorldManager::UpdateRenderList()
 /*
 	Creates all the chunks, putting them in their correct positions
 */
-void WorldManager::UpdateSetupList()
+void World::UpdateSetupList()
 {
 	// Used to give the chunks their ID and to taget chunks to create them
 	int i = 0;
@@ -129,7 +129,7 @@ void WorldManager::UpdateSetupList()
 	- Needs to be replaced with good system
 	- Not recomended to use in other projects
 */
-void WorldManager::UpdatePhysics(Player* player)
+void World::UpdatePhysics(Player* player)
 {
 	// Perform a loop of all the chunks
 	for (int i = 0; i < m_ChunkList.size(); ++i)
@@ -169,7 +169,7 @@ void WorldManager::UpdatePhysics(Player* player)
 	Returns the blocktype of the block at the given XYZ Coords
 	@param x y z World position to check for block
 */
-BlockType WorldManager::GetBlock(int x, int y, int z)
+BlockType World::GetBlock(int x, int y, int z)
 {
 	// Perform a loop of all the chunks
 	for (int i = 0; i < m_ChunkList.size(); i++)
@@ -197,7 +197,7 @@ BlockType WorldManager::GetBlock(int x, int y, int z)
 	}
 }
 
-Chunk* WorldManager::GetChunk(glm::vec3 pos)
+Chunk* World::GetChunk(glm::vec3 pos)
 {
 	for (int i = 0; i < m_ChunkList.size(); i++)
 	{
@@ -213,7 +213,7 @@ Chunk* WorldManager::GetChunk(glm::vec3 pos)
 	@param x y z World position to place the block
 	@param type What type of block to place
 */
-void WorldManager::SetBlock(int x, int y, int z, BlockType type)
+void World::SetBlock(int x, int y, int z, BlockType type)
 {
 	// Perform a loop of all the chunks
 	for (int i = 0; i < m_ChunkList.size(); i++)
@@ -233,6 +233,5 @@ void WorldManager::SetBlock(int x, int y, int z, BlockType type)
 			// Set the block within the chunk at the adjusted XYZ coords, also pass in the block-type
 			c->SetBlock(x, y, z, type);
 		}
-	}
-	
+	}	
 }

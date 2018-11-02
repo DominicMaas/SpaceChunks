@@ -1,6 +1,6 @@
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 
-XyEngine::XyEngine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)())
+Engine::Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)())
 {
 	this->m_InitFunc = initFunc;
 	this->m_RenderFunc = renderFunc;
@@ -8,12 +8,12 @@ XyEngine::XyEngine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_
 	this->m_PhysicsFunc = physicsFunc;
 }
 
-int XyEngine::StaticPhysicsThread(void *ptr)
+int Engine::StaticPhysicsThread(void *ptr)
 {
-	return ((XyEngine*)ptr)->PhysicsThread();
+	return ((Engine*)ptr)->PhysicsThread();
 }
 
-int XyEngine::PhysicsThread()
+int Engine::PhysicsThread()
 {
 	double lastTime = Time::GetTime();
 	double unprocessedTime = 0;
@@ -58,7 +58,7 @@ int XyEngine::PhysicsThread()
 	return 0;
 }
 
-int XyEngine::CreateWindow(int width, int height, char* title, float frameRate)
+int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 {
 	double StartTime = Time::GetTime();
 	Log("XyEngine is Loading...");
@@ -193,18 +193,18 @@ int XyEngine::CreateWindow(int width, int height, char* title, float frameRate)
 	return EXIT_SUCCESS;
 }
 
-int XyEngine::ReturnWithError(std::string err)
+int Engine::ReturnWithError(std::string err)
 {
 	Log(err.c_str());
 	return EXIT_FAILURE;
 }
 
-void XyEngine::Log(const char* text)
+void Engine::Log(const char* text)
 {
 	std::cout << "[XYEngine] " << text << std::endl;
 }
 
-void XyEngine::RenderText(float x, float y, const std::string message)
+void Engine::RenderText(float x, float y, const std::string message)
 {
 
 	SDL_Color color = { 255, 255, 255 };
@@ -259,7 +259,7 @@ void XyEngine::RenderText(float x, float y, const std::string message)
 
 }
 
-XyEngine::~XyEngine()
+Engine::~Engine()
 {
 	if (m_Window != NULL)
 	{

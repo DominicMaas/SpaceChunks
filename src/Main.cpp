@@ -1,13 +1,13 @@
 #define GLM_FORCE_RADIANS
 
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 #include "Player.hpp"
 #include "Chunk.hpp"
-#include "WorldManager.hpp"
+#include "World.hpp"
 
 Player *player;
-WorldManager *world;
-XyEngine *engine;
+World *world;
+Engine *engine;
 
 // Boolean for displaying the debug info on the screen
 bool isDebug = true;
@@ -25,7 +25,7 @@ void Init()
 	player = new Player(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), engine);
 
 	// Create the world, passing in the engine
-	world = new WorldManager(engine);
+	world = new World(engine);
 
 	// Set the world to 3D rendering
 	engine->Set3D();
@@ -144,7 +144,7 @@ void UpdatePhysics()
 int main()
 {
 	// Create the engine, passing in the required functions
-	engine = new XyEngine(Init, Render, Input, UpdatePhysics);
+	engine = new Engine(Init, Render, Input, UpdatePhysics);
 
 	// Create the window
 	engine->CreateWindow(1280, 720, "SpaceChunks", 60.0f);

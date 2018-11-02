@@ -1,7 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 
 const int MOTION_FRONT = 0;
 const int MOTION_BACK = 1;
@@ -13,7 +13,7 @@ class Camera
 private:
 	glm::vec3 m_CamPosition = glm::vec3(0.0f, 0.0f, 5.0f);
 	glm::vec3 m_CamRotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	XyEngine* m_Engine;
+	Engine* m_Engine;
 
 	void LockCamera();
 	void MoveCamera(float distance, float direction);
@@ -23,7 +23,7 @@ private:
 
 public:
 
-	Camera(XyEngine* engine);
+	Camera(Engine* engine);
 
 	glm::vec3 GetCameraPosition();
 	void SetCameraPosition(glm::vec3 pos);

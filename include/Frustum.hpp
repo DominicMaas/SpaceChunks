@@ -1,7 +1,7 @@
 #ifndef FRUSTUM_HPP
 #define FRUSTUM_HPP
 
-#include "XyEngine.hpp"
+#include "Engine.hpp"
 
 class Frustum
 {
@@ -30,14 +30,12 @@ public:
 	float modl[16];
 	float clip[16];
 
-	static Frustum GetFrustum(XyEngine* engine)
+	static Frustum GetFrustum(Engine* engine)
 	{
 		static Frustum frustum;
 		frustum.CalculateFrustum(engine);
 		return frustum;
 	}
-
-	
 
 	void NormalizePlane(float frustum[6][4], int side)
 	{
@@ -48,7 +46,8 @@ public:
 		frustum[side][2] /= magnitude;
 		frustum[side][3] /= magnitude;
 	}
-	void CalculateFrustum(XyEngine* engine)
+
+	void CalculateFrustum(Engine* engine)
 	{	
 		glGetFloatv(2983, proj);
 		glGetFloatv(2982, modl);
@@ -113,8 +112,7 @@ public:
 		m_Frustum[5][2] = (clip[11] + clip[10]);
 		m_Frustum[5][3] = (clip[15] + clip[14]);
 
-		NormalizePlane(m_Frustum, 5);
-		
+		NormalizePlane(m_Frustum, 5);		
 	}
 
 	 bool pointInFrustum(float x, float y, float z) {
