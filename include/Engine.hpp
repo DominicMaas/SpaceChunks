@@ -1,10 +1,10 @@
 ﻿#ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "SDL2/SDL.h"
-#include <GL/glew.h>
-#include <GL/gl.h>
-#undef main
+#include "GL/glew.h"
+#include <SFML/OpenGL.hpp>
+#include <SFML/Window.hpp>
+
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
 #define GLM_FORCE_RADIANS
@@ -20,8 +20,7 @@
 #include <fstream>
 #include <string>
 #include <Time.hpp>
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_ttf.h"
+#include <thread>
 #include <sstream>
 
 
@@ -36,17 +35,23 @@
 class Engine
 {
 private:
+	// Functions that run on the engine
 	void(*m_InitFunc)();
 	void(*m_RenderFunc)();
 	void(*m_PhysicsFunc)();
-	void(*m_InputFunc)(SDL_Event event);
+	void(*m_InputFunc)(sf::Event event);
+	
+	// SFML variables
+	sf::Window _window;
+	sf::Event _event;
+
+	// Thread for the physics engine
+	sf::Thread _physicsThread;
+
+	bool _isRunning;
+
 	float m_FrameRate;
 
-	SDL_Window* m_Window;
-	SDL_Thread* m_pPhysicsThread;
-	SDL_GLContext glcontext;
-	SDL_Event event;
-	bool m_running;
 	bool mousein;
 
 	float m_frameTime;
@@ -65,14 +70,12 @@ private:
 	int m_middleWidth;
 	int m_middleHeight;
 
-	static int StaticPhysicsThread(void *ptr);
-
-	int PhysicsThread();
+	void PhysicsThread();
 
 	const char* XyEngine_Version = "XyEngine 0.3.6";
 
 public:
-	Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)());
+	Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(sf::Event event), void(*physicsFunc)());
 
 	int CreateWindow(int width, int height, char* title, float frameRate);
 	int ReturnWithError(std::string err);
@@ -106,16 +109,12 @@ public:
 		return seed;
 	}
 
-	const char* GetXyEngineVersion()
-	{
-		return XyEngine_Version;
-	}
-
 	void GenSeed()
 	{
 		srand(time(0));
 		seed = rand();
 	}
+	
 	void Set3D()
 	{
 		glMatrixMode(GL_PROJECTION);
@@ -213,14 +212,14 @@ public:
 		return physicsRate;
 	}
 
-	SDL_Window* GetWindow()
+	sf::Window* GetWindow()
 	{
-		return m_Window;
+		return &_window;
 	}
 
-	SDL_Event GetEvent()
+	sf::Event* GetEvent()
 	{
-		return event;
+		return &_event;
 	}
 
 	bool IsMouseIn()
@@ -230,7 +229,7 @@ public:
 
 	bool Running()
 	{
-		return m_running;
+		return _isRunning;
 	}
 
 	void ClearScreen(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
@@ -243,71 +242,7 @@ public:
 		glClear(mask);
 	}
 
-	unsigned int CreateTexture(float w, float h, bool isDepth = false)
-	{
-		unsigned int textureID;
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, (!isDepth ? GL_RGBA8 : GL_DEPTH_COMPONENT), (GLsizei)w, (GLsizei)h, 0, isDepth ? GL_DEPTH_COMPONENT : GL_RGBA, GL_FLOAT, NULL);;
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-		int i = 0;
-		i = glGetError();
-		if (i != 0)
-		{
-			std::cout << "Error happened while creating the texture: " << i << std::endl;
-		}
-		glBindTexture(GL_TEXTURE_2D, 0);
-		return textureID;
-	}
-
 	void RenderText(float x, float y, const std::string message);
-
-	void BindTexture(GLuint &tex, int i)
-	{
-		glEnable(GL_TEXTURE_2D);
-		glActiveTexture(GL_TEXTURE + i);
-		glBindTexture(GL_TEXTURE_2D, tex);
-	}
-
-	void UnbindTexture()
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisable(GL_TEXTURE_2D);
-	}
-
-	void DisposeTexture(GLuint &tex)
-	{
-		glDeleteTextures(1, &tex);
-	}
-
-	void LoadTexture(GLuint &tex, const char* filename)
-	{
-		glGenTextures(1, &tex);
-
-		SDL_Surface* img = IMG_Load_RW(SDL_RWFromFile(filename, "rb"), 1);
-
-		if (img == NULL)
-		{
-			printf("Unable to load Image: %s\n", SDL_GetError());
-			tex = NULL;
-		}
-
-		else
-		{
-			glBindTexture(GL_TEXTURE_2D, tex);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->w, img->h, 0, GL_RGB, GL_UNSIGNED_BYTE, img->pixels);
-			SDL_FreeSurface(img);
-		}
-	}
 };
 
 #endif // ENGINE_HPP

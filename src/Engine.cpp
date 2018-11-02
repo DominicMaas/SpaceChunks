@@ -1,6 +1,6 @@
 #include "Engine.hpp"
 
-Engine::Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Event event), void(*physicsFunc)())
+Engine::Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(sf::Event event), void(*physicsFunc)()) : _physicsThread(&Engine::PhysicsThread, this)
 {
 	this->m_InitFunc = initFunc;
 	this->m_RenderFunc = renderFunc;
@@ -8,19 +8,14 @@ Engine::Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(SDL_Even
 	this->m_PhysicsFunc = physicsFunc;
 }
 
-int Engine::StaticPhysicsThread(void *ptr)
-{
-	return ((Engine*)ptr)->PhysicsThread();
-}
-
-int Engine::PhysicsThread()
+void Engine::PhysicsThread()
 {
 	double lastTime = Time::GetTime();
 	double unprocessedTime = 0;
 	double frameCounter = 0;
 	pysicsFrames = 0;
 
-	while (m_running)
+	while (_isRunning)
 	{
 		bool physicsUpdate = false;
 
@@ -49,19 +44,17 @@ int Engine::PhysicsThread()
 			m_PhysicsFunc();
 			pysicsFrames++;
 		}
-		else{
-			SDL_Delay(1);
+		else
+		{
+			sf::sleep(sf::milliseconds(1));
 		}
-
 	}
-
-	return 0;
 }
 
 int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 {
 	double StartTime = Time::GetTime();
-	Log("XyEngine is Loading...");
+	Log("Engine is Loading...");
 	
 	this->m_windowWidth = width;
 	this->m_windowHeight = height;
@@ -72,29 +65,14 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 	this->m_FrameRate = frameRate;
 	this->m_frameTime = 1.0 / this->m_FrameRate;
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-		return ReturnWithError("SDL Failed To Init!");
+	// Create the window
+	_window.create(sf::VideoMode(m_windowWidth, m_windowHeight), title, sf::Style::Default, sf::ContextSettings(32));
 
-	m_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_windowWidth, m_windowHeight, SDL_WINDOW_OPENGL);
-
-	if (m_Window == NULL)
-	{
-		SDL_Quit();
-		return ReturnWithError("SDL Failed To Create the Window!");
-	}
-
-	glcontext = SDL_GL_CreateContext(m_Window);
-
+	// Load glew
 	if (glewInit() != GLEW_OK)
 		return ReturnWithError("GLEW Failed to Init!");
 
-	if (TTF_Init() != 0)
-		return ReturnWithError("TTF Failed to Init!");
-
-	if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG))
-		return ReturnWithError("IMG Failed to Init!");
-
-	m_running = true;
+	_isRunning = true;
 
 	double lastTime = Time::GetTime();
 	double unprocessedTime = 0;
@@ -107,22 +85,14 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 
 	m_InitFunc();
 
-	m_pPhysicsThread = SDL_CreateThread(StaticPhysicsThread, "PhysicsThread", this);
-
-	if (NULL == m_pPhysicsThread) {
-		ReturnWithError("Physics Thread Failed to create");
-	}
-	else
-	{
-		Log("Physics Thread Created");
-	}
+	_physicsThread.launch();
 
 	double EndTime = Time::GetTime() - StartTime;
 	std::cout << "Time Taken to load XyEngine: " << EndTime << std::endl;
 
-	SDL_Event event;
+	sf::Event event;
 
-	while (m_running)
+	while (_isRunning)
 	{
 		bool render = false;
 
@@ -144,30 +114,31 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 		{
 			render = true;
 
-			while (SDL_PollEvent(&event))
+			while (_window.pollEvent(event))
 			{
 				m_InputFunc(event);
 
 				switch (event.type)
 				{
-
-				case SDL_QUIT:
-					m_running = false;
-					break;
-
-				case SDL_MOUSEBUTTONDOWN:
-					mousein = true;
-					SDL_ShowCursor(SDL_DISABLE);
-					break;
-
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-						mousein = false;
-						SDL_ShowCursor(SDL_ENABLE);
+					case sf::Event::Closed:
+						_isRunning = false;
 						break;
-					}
+
+					case sf::Event::MouseButtonPressed:
+						mousein = true;
+						_window.setMouseCursorVisible(false);
+						_window.setMouseCursorGrabbed(false);
+						break;
+
+					case sf::Event::KeyPressed:
+						switch (event.key.code)
+						{		
+							case sf::Keyboard::Escape:
+							mousein = false;
+							_window.setMouseCursorVisible(true);
+							_window.setMouseCursorGrabbed(true);
+							break;
+						}
 				}
 			}
 
@@ -176,16 +147,15 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 
 		if (render)
 		{
-			if (mousein)
-				SDL_WarpMouseInWindow(m_Window, m_middleWidth, m_middleHeight);
-
 			m_RenderFunc();
-			SDL_GL_SwapWindow(m_Window);
+			
+			_window.display();
+			
 			frames++;
 		}
 		else
 		{
-			SDL_Delay(1);
+			sf::sleep(sf::milliseconds(1));
 		}
 	}
 
@@ -205,69 +175,10 @@ void Engine::Log(const char* text)
 }
 
 void Engine::RenderText(float x, float y, const std::string message)
-{
-
-	SDL_Color color = { 255, 255, 255 };
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	gluOrtho2D(0, m_windowWidth, m_windowHeight, 0);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	TTF_Font * m_font = TTF_OpenFont("fonts/font3.ttf", 14);
-
-	if (!m_font) 
-	{
-		printf("TTF_OpenFont: %s\n", TTF_GetError());
-	}
-
-	SDL_Surface * sFont = TTF_RenderText_Blended(m_font, message.c_str(), color);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sFont->w, sFont->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, sFont->pixels);
-
-	glBegin(GL_QUADS);
-	{
-		glTexCoord2f(0.0f, 0.0f); glVertex2f(x, y);
-		glTexCoord2f(1.0f, 0.0f); glVertex2f(x + sFont->w, y);
-		glTexCoord2f(1.0f, 1.0f); glVertex2f(x + sFont->w, y + sFont->h);
-		glTexCoord2f(0.0f, 1.0f); glVertex2f(x, y + sFont->h);
-	}
-	glEnd();
-
-	glDisable(GL_BLEND);
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
-
-	glMatrixMode(GL_PROJECTION);
-
-	glDeleteTextures(1, &texture);
-	TTF_CloseFont(m_font);
-	SDL_FreeSurface(sFont);
-
-}
+{ }
 
 Engine::~Engine()
 {
-	if (m_Window != NULL)
-	{
-		printf("[CORE] XyEngine is shutting down... \n");
-		TTF_Quit();
-		IMG_Quit();
-		SDL_GL_DeleteContext(glcontext);
-		SDL_DestroyWindow(m_Window);
-		SDL_Quit();
-	}
+	printf("[CORE] Engine is shutting down... \n");
+	_window.close();
 }

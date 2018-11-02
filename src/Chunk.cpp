@@ -66,7 +66,6 @@ void Chunk::CreateChunk()
 	m_pChanged = true;
 	m_pChunkID = glGenLists(1);
 
-	m_pRenderer->LoadTexture(m_pTextureID, "img/textures.jpg");
 	int chunkSeed = m_pRenderer->GetSeed();
 
 	glm::vec3 grain0Offset(chunkSeed * 100, chunkSeed * 100, chunkSeed * 100);
@@ -126,141 +125,56 @@ void Chunk::Rebuild()
 				float x = (float)_x;
 				float y = (float)_y;
 				float z = (float)_z;
-				/*
-				float texCoordsDirt[8] = 
-				{
-				//  X     Y
-					0.0f, 1.0f,
-					0.0f, 0.0f,
-					0.0625f, 0.0f,
-					0.0625f, 1.0f			
-				};
-
-				float texCoordsGrass[8] =
-				{
-					//  X     Y
-					0.125f, 1.0f,
-					0.125f, 0.0f,
-					0.1875f, 0.0f,
-					0.1875f, 1.0f
-				};
-
-				float texCoordsSide[8] =
-				{
-					//  X     Y
-					0.0625f, 1.0f,
-					0.0625f, 0.0f,
-					0.125f, 0.0f,
-					0.125f, 1.0f
-				};
-				*/
-
-				float texCoordsDirt[8] =
-				{
-					//  X     Y
-					0.125f, 1.0f,
-					0.125f, 0.0f,
-					0.1875f, 0.0f,
-					0.1875f, 1.0f
-				};
-
-				float texCoordsGrass[8] =
-				{
-					//  X     Y
-					0.125f, 1.0f,
-					0.125f, 0.0f,
-					0.1875f, 0.0f,
-					0.1875f, 1.0f
-				};
-
-				float texCoordsSide[8] =
-				{
-					//  X     Y
-					0.125f, 1.0f,
-					0.125f, 0.0f,
-					0.1875f, 0.0f,
-					0.1875f, 1.0f
-				};
 
 				if (IsTransparent(_x, _y, _z - 1))
 				{
-					glNormal3f(0.0f, 0.0f, -1.0f);
-					glTexCoord2f(texCoordsSide[0], texCoordsSide[1]);
 					glVertex3f(x + 1.0f, y, z);
-					glTexCoord2f(texCoordsSide[2], texCoordsSide[3]);
 					glVertex3f(x, y, z);
-					glTexCoord2f(texCoordsSide[4], texCoordsSide[5]);
 					glVertex3f(x, y + 1.0f, z);
-					glTexCoord2f(texCoordsSide[6], texCoordsSide[7]);
 					glVertex3f(x + 1.0f, y + 1.0f, z);
 					faces++;
 				}
 
 				if (IsTransparent(_x, _y, _z + 1))
 				{
-					glNormal3f(0.0f, 0.0f, 1.0f);
-					glTexCoord2f(texCoordsSide[0], texCoordsSide[1]);
 					glVertex3f(x, y, z + 1.0f);
-					glTexCoord2f(texCoordsSide[2], texCoordsSide[3]);
 					glVertex3f(x + 1.0f, y, z + 1.0f);
-					glTexCoord2f(texCoordsSide[4], texCoordsSide[5]);
 					glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
-					glTexCoord2f(texCoordsSide[6], texCoordsSide[7]);
 					glVertex3f(x, y + 1.0f, z + 1.0f);
 					faces++;
 				}
 				if (IsTransparent(_x + 1, _y, _z))
 				{
-					glNormal3f(1.0f, 0.0f, 0.0f);
-					glTexCoord2f(texCoordsSide[0], texCoordsSide[1]);
 					glVertex3f(x + 1.0f, y, z + 1.0f);
-					glTexCoord2f(texCoordsSide[2], texCoordsSide[3]);
 					glVertex3f(x + 1.0f, y, z);
-					glTexCoord2f(texCoordsSide[4], texCoordsSide[5]);
 					glVertex3f(x + 1.0f, y + 1.0f, z);
-					glTexCoord2f(texCoordsSide[6], texCoordsSide[7]);
 					glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
 					faces++;
 				}
 
 				if (IsTransparent(_x - 1, _y, _z))
 				{
-					glNormal3f(-1.0f, 0.0f, 0.0f);
-					glTexCoord2f(texCoordsSide[0], texCoordsSide[1]);
 					glVertex3f(x, y, z);
-					glTexCoord2f(texCoordsSide[2], texCoordsSide[3]);
 					glVertex3f(x, y, z + 1.0f);
-					glTexCoord2f(texCoordsSide[4], texCoordsSide[5]);
 					glVertex3f(x, y + 1.0f, z + 1.0f);
-					glTexCoord2f(texCoordsSide[6], texCoordsSide[7]);
 					glVertex3f(x, y + 1.0f, z);
 					faces++;
 				}
 
 				if (IsTransparent(_x, _y - 1, _z))
 				{
-					glNormal3f(0.0f, -1.0f, 0.0f);
-					glTexCoord2f(texCoordsDirt[0], texCoordsDirt[1]);
 					glVertex3f(x, y, z);
-					glTexCoord2f(texCoordsDirt[2], texCoordsDirt[3]);
 					glVertex3f(x + 1.0f, y, z);
-					glTexCoord2f(texCoordsDirt[4], texCoordsDirt[5]);
 					glVertex3f(x + 1.0f, y, z + 1.0f);
-					glTexCoord2f(texCoordsDirt[6], texCoordsDirt[7]);
 					glVertex3f(x, y, z + 1.0f);
 					faces++;
 				}
 
 				if (IsTransparent(_x, _y + 1, _z))
 				{
-					glNormal3f(0.0f, 1.0f, 0.0f);
-					glTexCoord2f(texCoordsGrass[0], texCoordsGrass[1]);
 					glVertex3f(x + 1.0f, y + 1.0f, z);
-					glTexCoord2f(texCoordsGrass[2], texCoordsGrass[3]);
 					glVertex3f(x, y + 1.0f, z);
-					glTexCoord2f(texCoordsGrass[4], texCoordsGrass[5]);
 					glVertex3f(x, y + 1.0f, z + 1.0f);
-					glTexCoord2f(texCoordsGrass[6], texCoordsGrass[7]);
 					glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
 					faces++;
 				}
@@ -287,8 +201,7 @@ void Chunk::Render()
 	m_pRenderer->PushMatrix();
 	m_pRenderer->TranslateWorldMatrix(m_position);
 
-	m_pRenderer->BindTexture(m_pTextureID, 1);
-		glCallList(m_pChunkID);
+	glCallList(m_pChunkID);
 
 	m_pRenderer->PopMatrix();
 
@@ -477,6 +390,4 @@ Chunk::~Chunk()
 		delete[] m_pBlocks[i];
 	}
 	delete[] m_pBlocks;
-
 }
-

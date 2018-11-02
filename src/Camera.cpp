@@ -64,44 +64,41 @@ void Camera::UpdateControls(float moveSpeed, float mouseSpeed, bool mouseIn)
 {
 	if (mouseIn)
 	{
-		SDL_ShowCursor(SDL_DISABLE);
-		int tmpx, tmpy;
-		SDL_GetMouseState(&tmpx, &tmpy); 
-		m_CamRotation.y += mouseSpeed*(m_Engine->GetWindowMiddleWidth() - tmpx);
-		m_CamRotation.x += mouseSpeed*(m_Engine->GetWindowMiddleHeight() - tmpy);
+		m_Engine->GetWindow()->setMouseCursorVisible(false);
+
+		sf::Vector2i mousePos = sf::Mouse::getPosition();
+		m_CamRotation.y += mouseSpeed*(m_Engine->GetWindowMiddleWidth() - mousePos.x);
+		m_CamRotation.x += mouseSpeed*(m_Engine->GetWindowMiddleHeight() - mousePos.y);
 		LockCamera();
 
-		const Uint8 *state = SDL_GetKeyboardState(NULL);
-
-		if (state[SDL_SCANCODE_W])
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			if (!m_pLockFront)
 				MoveCamera(moveSpeed, 0.0);
 		}
-		else if (state[SDL_SCANCODE_S])
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			if (!m_pLockBack)
 				MoveCamera(moveSpeed, 180.0);
 		}
-		else if (state[SDL_SCANCODE_A])
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			if (!m_pLockLeft)
 				MoveCamera(moveSpeed, 90.0);
 		}
-		else if (state[SDL_SCANCODE_D])
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			if (!m_pLockRight)
 				MoveCamera(moveSpeed, 270);
 		}
-		else if (state[SDL_SCANCODE_SPACE])
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			m_CamPosition.y += moveSpeed;
 		}
-		else if (state[SDL_SCANCODE_LSHIFT])
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
 			m_CamPosition.y -= moveSpeed;
 		}
-
 	}
 	m_Engine->RotateWorldMatrix_X(-m_CamRotation.x);
 	m_Engine->RotateWorldMatrix_Y(-m_CamRotation.y);

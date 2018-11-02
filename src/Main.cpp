@@ -45,27 +45,27 @@ void Init()
 	This function handles the games input, it is called within the engine, and 
 	requires a SDL_Event param
 */
-void Input(SDL_Event event)
+void Input(sf::Event event)
 {
 	// Switch on the event type
 	switch (event.type)
 	{
-	case SDL_KEYDOWN:
-		switch (event.key.keysym.sym)
+	case sf::Event::KeyPressed:
+		switch (event.key.code)
 		{
-			case SDLK_F2:	
+			case sf::Keyboard::F2: 	
 				// Sets the player position
 				player->SetPosition(glm::vec3(10, 128, 10));		
 				break;
-			case SDLK_F3:
+			case sf::Keyboard::F3:
 				// Toggles debug text on screen
 				isDebug = !isDebug;
 				break;
-			case SDLK_q:
+			case sf::Keyboard::Q:
 				// Sets a block at the players position
 				world->SetBlock((int)player->GetPosition().x, (int)player->GetPosition().y, (int)player->GetPosition().z, BlockType::Grass);
 				break;
-			case SDLK_e:
+			case sf::Keyboard::E:
 				// Removes a block below the players position
 				world->SetBlock((int)player->GetPosition().x, (int)player->GetPosition().y - 1, (int)player->GetPosition().z, BlockType::Air);
 				break;
@@ -85,47 +85,22 @@ void Render()
 	// Set rendering mode to 3D
 	engine->Set3D();
 		
-		// Updates the player position
-		player->Update(engine->IsMouseIn());
+	// Updates the player position
+	player->Update(engine->IsMouseIn());
 
-		// Updates the world
-		world->Update(player->GetPosition(), player->GetRotation());
+	// Updates the world
+	world->Update(player->GetPosition(), player->GetRotation());
 		
-		//-- Lighting Stuff --//
-		GLfloat ambient_color[] = { 0.7f, 0.7f, 0.7f, 0.7f };
-		GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f };
+	//-- Lighting Stuff --//
+	GLfloat ambient_color[] = { 0.7f, 0.7f, 0.7f, 0.7f };
+	GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f };
 
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
-		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		glShadeModel(GL_SMOOTH);
-		//--------------------//
-		
-		// If the debug varaible is true
-		if (isDebug)
-		{
-			// Set Rendering mode to 2D
-			// RenderText(x,y, string);
-			engine->Set2D();
-				engine->RenderText(5, 0, "Space Chunks Alpha 0.3.2, XyEngine Version: " + std::string(engine->GetXyEngineVersion()));
-				engine->RenderText(5, 15, "Copyright � 2014 - 2017 Dominic Maas, Provided under the MIT license");
-
-				engine->RenderText(5, 45, "Render FPS: " + engine->ConvertIntToString((int)engine->GetFPS()));
-				engine->RenderText(5, 60, "Physics FPS: " + engine->ConvertIntToString((int)engine->GetPhysicsFPS()));
-
-				engine->RenderText(5, 90, "View Distance: " + engine->ConvertIntToString(world->GetViewDistance()));
-				engine->RenderText(5, 105, "Chunks: " + engine->ConvertIntToString(world->GetLoadedChunks()) + "  (" + engine->ConvertIntToString(world->GetFrustumChunks()) + ")");
-
-				std::string playerPosStr = " X: " + engine->ConvertIntToString((int)player->GetPosition().x) + " Y: " + engine->ConvertIntToString((int)player->GetPosition().y) + " Z: " + engine->ConvertIntToString((int)player->GetPosition().z);
-				engine->RenderText(5, 135, "Player Position: " + playerPosStr);
-
-				std::string playerRotStr = " X: " + engine->ConvertIntToString((int)player->GetRotation().x) + " Y: " + engine->ConvertIntToString((int)player->GetRotation().y) + " Z: " + engine->ConvertIntToString((int)player->GetRotation().z);
-				engine->RenderText(5, 150, "Player Rotation: " + playerRotStr);
-
-				engine->RenderText(5, 180, "Seed: " + engine->ConvertIntToString(engine->GetSeed()));
-		}
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glShadeModel(GL_SMOOTH);
 }
 
 /*

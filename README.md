@@ -17,6 +17,12 @@ Things I would like to do are:
 
 Feel free to use any of this code in your own projects, let me know of any awesome things you create using this code [here](https://twitter.com/dominicjmaas)
 
+## Setup
+
+### Linux
+
+1. TODO
+
 ## Controls
  
 - **W:** Forward

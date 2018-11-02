@@ -67,7 +67,6 @@ private:
 	World* m_pWorld;
 
 	GLuint m_pChunkID;
-	GLuint m_pTextureID;
 };
 
 #endif // CHUNK_HPP
