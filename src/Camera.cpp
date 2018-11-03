@@ -3,6 +3,8 @@
 Camera::Camera(Engine* engine)
 {
 	this->m_Engine = engine;
+
+	_previousMousePosition = sf::Vector2i(engine->GetWindowWidth() / 2, engine->GetWindowHeight() / 2);
 }
 
 glm::vec3 Camera::GetCameraPosition()
@@ -27,23 +29,23 @@ void Camera::SetCameraRotation(glm::vec3 pos)
 
 void Camera::LockCamera()
 {
-	if (m_CamRotation.y < 0.0)
-		m_CamRotation.y += 360;
+	//if (m_CamRotation.y < 0.0)
+	//	m_CamRotation.y = 360;
 
-	if (m_CamRotation.y > 360.0)
-		m_CamRotation.y -= 360;
+	//if (m_CamRotation.y > 360.0)
+	//	m_CamRotation.y = 360;
 
-	if (m_CamRotation.z < 0.0)
-		m_CamRotation.z += 360;
+	//if (m_CamRotation.z < 0.0)
+	//	m_CamRotation.z = 360;
 
-	if (m_CamRotation.z > 360.0)
-		m_CamRotation.z -= 360;
+	//if (m_CamRotation.z > 360.0)
+	//	m_CamRotation.z = 360;
 
-	if (m_CamRotation.x > 90)
-		m_CamRotation.x = 90;
+	//if (m_CamRotation.x > 90)
+	//	m_CamRotation.x = 90;
 
-	if (m_CamRotation.x < -90)
-		m_CamRotation.x = -90;
+	//if (m_CamRotation.x < -90)
+	//	m_CamRotation.x = -90;
 }
 
 void Camera::MoveCamera(float distance, float direction)
@@ -64,11 +66,23 @@ void Camera::UpdateControls(float moveSpeed, float mouseSpeed, bool mouseIn)
 {
 	if (mouseIn)
 	{
-		m_Engine->GetWindow()->setMouseCursorVisible(false);
+		// Get the current mouse position in the window
+		sf::Vector2i mousePos = sf::Mouse::getPosition(m_Engine->_window);
 
-		sf::Vector2i mousePos = sf::Mouse::getPosition();
-		m_CamRotation.y += mouseSpeed*(m_Engine->GetWindowMiddleWidth() - mousePos.x);
-		m_CamRotation.x += mouseSpeed*(m_Engine->GetWindowMiddleHeight() - mousePos.y);
+		// Get the x and y offset, reversed Y since y-coordinates range from bottom to top
+		float xOffset = mousePos.x - _previousMousePosition.x;
+		float yOffset = _previousMousePosition.y - mousePos.y;
+
+		// Update the previous mouse position
+		_previousMousePosition = mousePos;
+
+		float sensitivity = 0.05f;
+		xOffset *= sensitivity;
+		yOffset *= sensitivity;
+
+		// Apply the camera rotation
+		m_CamRotation.y += yOffset; //0.05f*xOffset; //(m_Engine->GetWindowMiddleWidth() - xOffset);
+		m_CamRotation.x += xOffset; //0.05f*yOffset; //(m_Engine->GetWindowMiddleHeight() - yOffset);
 		LockCamera();
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -100,8 +114,8 @@ void Camera::UpdateControls(float moveSpeed, float mouseSpeed, bool mouseIn)
 			m_CamPosition.y -= moveSpeed;
 		}
 	}
-	m_Engine->RotateWorldMatrix_X(-m_CamRotation.x);
-	m_Engine->RotateWorldMatrix_Y(-m_CamRotation.y);
+	m_Engine->RotateWorldMatrix_X(cos(glm::radians(m_CamRotation.y)) * cos(glm::radians(m_CamRotation.x))); //(-m_CamRotation.x);
+	m_Engine->RotateWorldMatrix_Y(sin(glm::radians(m_CamRotation.y)));  //(-m_CamRotation.y); // 
 	m_Engine->RotateWorldMatrix_Z(-m_CamRotation.z);
 }
 

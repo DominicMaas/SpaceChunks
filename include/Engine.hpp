@@ -42,7 +42,7 @@ private:
 	void(*m_InputFunc)(sf::Event event);
 	
 	// SFML variables
-	sf::Window _window;
+	
 	sf::Event _event;
 
 	// Thread for the physics engine
@@ -75,6 +75,8 @@ private:
 	const char* XyEngine_Version = "XyEngine 0.3.6";
 
 public:
+	sf::Window _window;
+
 	Engine(void(*initFunc)(), void(*renderFunc)(), void(*inputFunc)(sf::Event event), void(*physicsFunc)());
 
 	int CreateWindow(int width, int height, char* title, float frameRate);

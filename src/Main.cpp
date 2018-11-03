@@ -110,7 +110,7 @@ void Render()
 void UpdatePhysics()
 {
 	// Update the world physics
-	world->UpdatePhysics(player);
+	//world->UpdatePhysics(player);
 }
 
 /*
@@ -122,7 +122,7 @@ int main()
 	engine = new Engine(Init, Render, Input, UpdatePhysics);
 
 	// Create the window
-	engine->CreateWindow(1280, 720, "SpaceChunks", 60.0f);
+	engine->CreateWindow(1920, 1080, "SpaceChunks", 60.0f);
 
 	delete player;
 	delete world;

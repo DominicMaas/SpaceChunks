@@ -127,7 +127,7 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 					case sf::Event::MouseButtonPressed:
 						mousein = true;
 						_window.setMouseCursorVisible(false);
-						_window.setMouseCursorGrabbed(false);
+						_window.setMouseCursorGrabbed(true);
 						break;
 
 					case sf::Event::KeyPressed:
@@ -136,7 +136,7 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 							case sf::Keyboard::Escape:
 							mousein = false;
 							_window.setMouseCursorVisible(true);
-							_window.setMouseCursorGrabbed(true);
+							_window.setMouseCursorGrabbed(false);
 							break;
 						}
 				}

@@ -21,6 +21,7 @@ private:
 
 	bool m_pLockFront = false, m_pLockBack = false, m_pLockLeft = false, m_pLockRight = false;
 
+	sf::Vector2i _previousMousePosition;
 public:
 
 	Camera(Engine* engine);
