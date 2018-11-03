@@ -65,8 +65,14 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 	this->m_FrameRate = frameRate;
 	this->m_frameTime = 1.0 / this->m_FrameRate;
 
+	// Create the OpenGL settings
+	sf::ContextSettings settings;
+	settings.majorVersion = 3;
+	settings.minorVersion = 3;
+	settings.attributeFlags = sf::ContextSettings::Core;
+
 	// Create the window
-	_window.create(sf::VideoMode(m_windowWidth, m_windowHeight), title, sf::Style::Default, sf::ContextSettings(32));
+	_window.create(sf::VideoMode(m_windowWidth, m_windowHeight), title, sf::Style::Default, settings);
 
 	// Load glew
 	if (glewInit() != GLEW_OK)
@@ -78,10 +84,6 @@ int Engine::CreateWindow(int width, int height, char* title, float frameRate)
 	double unprocessedTime = 0;
 	double frameCounter = 0;
 	frames = 0;
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_MULTISAMPLE_ARB);
 
 	m_InitFunc();
 
