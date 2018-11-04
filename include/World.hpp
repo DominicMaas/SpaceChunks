@@ -1,5 +1,4 @@
-#ifndef WORLD_HPP
-#define WORLD_HPP
+#pragma once
 
 // Includes for the World Manager Class
 #include "Engine.hpp"
@@ -20,17 +19,13 @@ const int SECLECTED_WORLD_SIZE = WORLD_SMALL;
 // How many chunks can the player see
 #define VIEW_DISTANCE 11
 
-// Define Chunk class to prevent compile Issues (Probably a better way to do it)
-class Chunk;
-
 /*
 	The WorldManager class creates the world using the World Size defines and the view distance define
 	- Chunks are stored in a vector
 	- Only Chunks in the fustrum are loaded
 	- Only Chunks in the players view distance are rendered
 */
-class World
-{
+class World {
 private:
 	// A Vector containing all the loaded chunks
 	std::vector<Chunk*> m_ChunkList;
@@ -107,5 +102,3 @@ public:
 
 	Chunk *GetChunk(glm::vec3 pos);
 };
-
-#endif // WORLD_HPP

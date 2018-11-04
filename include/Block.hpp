@@ -1,44 +1,21 @@
-#ifndef BLOCK_HPP
-#define BLOCK_HPP
+#pragma once
 
-/*
-	Enum of all the block types in the game
-*/
-enum BlockType
-{
+// All the block types in the game
+enum BlockType {
 	Air = 0,
-
 	Grass,
 	Dirt,
-
 	NumTypes,
 };
 
-/*
-	Block Class, used to store information about the current block 
-*/
-class Block
-{
-private:
-	// Is the block Active
-	bool m_pActive;
-	// The blocks light level (Coming Soon)
-	float m_pLightLevel;
-	// What type of block it is
-	BlockType m_pBlockType;
+class Block {
 public:
-	Block();
-	~Block();
+	bool active();
+	void setActive(bool active);
 
-	// Returns if the block is active
-	bool IsActive();
-	// Returns the block type
-	BlockType GetBlockType();
-
-	// Sets block to active
-	void SetActive(bool active);
-	// Sets the block type
-	void SetBlockType(BlockType type);
+	BlockType type();
+	void setType(BlockType type);	
+private:
+	bool m_active;
+	BlockType m_type;
 };
-
-#endif // BLOCK_HPP

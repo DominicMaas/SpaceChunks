@@ -1,16 +1,13 @@
-#ifndef FRUSTUM_HPP
-#define FRUSTUM_HPP
+#pragma once
 
 #include "Engine.hpp"
 
-class Frustum
-{
+class Frustum {
 public:
 	float m_Frustum[6][4];
 
-	enum sides
-	{
-		RIGHT = 0,
+	enum Sides {
+		RIGHT,
 		LEFT,
 		BOTTOM,
 		TOP,
@@ -18,8 +15,7 @@ public:
 		FRONT
 	};
 
-	enum corners
-	{
+	enum Corners {
 		A = 0,
 		B,
 		C,
@@ -177,5 +173,3 @@ public:
 		return true;
 	}
 };
-
-#endif // FRUSTUM_HPP

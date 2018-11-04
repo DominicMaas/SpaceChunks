@@ -17,6 +17,8 @@ Things I would like to do are:
 
 Feel free to use any of this code in your own projects, let me know of any awesome things you create using this code [here](https://twitter.com/dominicjmaas)
 
+This repo follows the webkit style guide located [here](https://webkit.org/code-style-guidelines/).
+
 ## Setup
 
 ### Linux

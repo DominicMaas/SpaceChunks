@@ -1,75 +1,77 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
+#pragma once
 
 #include "Engine.hpp"
 
-const int MOTION_FRONT = 0;
-const int MOTION_BACK = 1;
-const int MOTION_LEFT = 2;
-const int MOTION_RIGHT = 3;
-
-class Camera
-{
-private:
-	glm::vec3 m_CamPosition = glm::vec3(0.0f, 0.0f, 5.0f);
-	glm::vec3 m_CamRotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	Engine* m_Engine;
-
-	void LockCamera();
-	void MoveCamera(float distance, float direction);
-	void MoveCameraUp(float distance, float direction);
-
-	bool m_pLockFront = false, m_pLockBack = false, m_pLockLeft = false, m_pLockRight = false;
-
-	sf::Vector2i _previousMousePosition;
-public:
-
-	Camera(Engine* engine);
-
-	glm::vec3 GetCameraPosition();
-	void SetCameraPosition(glm::vec3 pos);
-
-	glm::vec3 GetCameraRotation();
-	void SetCameraRotation(glm::vec3 pos);
-
-	void UpdateControls(float moveSpeed, float mouseSpeed, bool mouseIn);
-	void UpdateCamera();
-
-	void LockMotion(int axis) {
-		switch (axis)
-		{
-		case MOTION_FRONT:
-			m_pLockFront = true;
-			break;
-		case MOTION_BACK:
-			m_pLockBack = true;
-			break;
-		case MOTION_LEFT:
-			m_pLockLeft = true;
-			break;
-		case MOTION_RIGHT:
-			m_pLockRight = true;
-			break;
-		}
-	}
-
-	void UnlockMotion(int axis) {
-		switch (axis)
-		{
-		case MOTION_FRONT:
-			m_pLockFront = false;
-			break;
-		case MOTION_BACK:
-			m_pLockBack = false;
-			break;
-		case MOTION_LEFT:
-			m_pLockLeft = false;
-			break;
-		case MOTION_RIGHT:
-			m_pLockRight = false;
-			break;
-		}
-	}
+enum Motion {
+	Front,
+	Back,
+	Left,
+	Right
 };
 
-#endif // CAMERA_HPP
+class Camera {
+public:
+	Camera(Engine* engine);
+
+	glm::vec3 position();
+	void setPosition(glm::vec3 position);
+
+	glm::vec3 rotation();
+	void setRotation(glm::vec3 rotation);
+
+	void updateControls(float moveSpeed, float mouseSpeed, bool mouseIn);
+	void updateCamera();
+
+	void LockMotion(Motion axis) 
+	{
+		switch (axis) {
+		case Motion::Front:
+			m_lockFront = true;
+			break;
+		case Motion::Back:
+			m_lockBack = true;
+			break;
+		case Motion::Left:
+			m_lockLeft = true;
+			break;
+		case Motion::Right:
+			m_lockRight = true;
+			break;
+		}
+	}
+
+	void UnlockMotion(int axis) 
+	{
+		switch (axis) {
+		case Motion::Front:
+			m_lockFront = false;
+			break;
+		case Motion::Back:
+			m_lockBack = false;
+			break;
+		case Motion::Left:
+			m_lockLeft = false;
+			break;
+		case Motion::Right:
+			m_lockRight = false;
+			break;
+		}
+	}
+
+private:
+	glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 5.0f);
+	glm::vec3 m_rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	
+	Engine* m_engine;
+
+	sf::Vector2i m_previousMousePosition;
+
+	bool m_lockFront = false;
+	bool m_lockBack = false; 
+	bool m_lockLeft = false;
+	bool m_lockRight = false;
+
+	void lockCamera();
+	void moveCamera(float distance, float direction);
+	void moveCameraUp(float distance, float direction);
+};

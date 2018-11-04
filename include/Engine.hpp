@@ -1,5 +1,4 @@
-﻿#ifndef ENGINE_HPP
-#define ENGINE_HPP
+﻿#pragma once
 
 #include "GL/glew.h"
 #include <SFML/OpenGL.hpp>

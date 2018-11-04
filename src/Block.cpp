@@ -1,42 +1,21 @@
 #include "Block.hpp"
 
-Block::Block()
+bool Block::active()
 {
+    return this->m_active;
 }
 
-
-Block::~Block()
+void Block::setActive(bool active)
 {
+    this->m_active = active;
 }
 
-/* 
-	Returns if the block is active 
-*/
-bool Block::IsActive()
+void Block::setType(BlockType type)
 {
-	return this->m_pActive;
+    this->m_type = type;
 }
 
-/*
-	// Sets block to active
-*/
-void Block::SetActive(bool active)
+BlockType Block::type()
 {
-	this->m_pActive = active;
-}
-
-/*
-	// Sets the block type
-*/
-void Block::SetBlockType(BlockType type)
-{
-	this->m_pBlockType = type;
-}
-
-/*
-	// Returns the block type
-*/
-BlockType Block::GetBlockType()
-{
-	return this->m_pBlockType;
+    return this->m_type;
 }

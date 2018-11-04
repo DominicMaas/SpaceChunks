@@ -2,32 +2,31 @@
 
 Camera::Camera(Engine* engine)
 {
-	this->m_Engine = engine;
-
-	_previousMousePosition = sf::Vector2i(engine->GetWindowWidth() / 2, engine->GetWindowHeight() / 2);
+	this->m_engine = engine;
+	this->m_previousMousePosition = sf::Vector2i(engine->GetWindowWidth() / 2, engine->GetWindowHeight() / 2);
 }
 
-glm::vec3 Camera::GetCameraPosition()
+glm::vec3 Camera::position()
 {
-	return m_CamPosition;
+	return m_position;
 }
 
-void Camera::SetCameraPosition(glm::vec3 pos)
+void Camera::setPosition(glm::vec3 position)
 {
-	this->m_CamPosition = pos;
+	this->m_position = position;
 }
 
-glm::vec3 Camera::GetCameraRotation()
+glm::vec3 Camera::rotation()
 {
-	return m_CamRotation;
+	return m_rotation;
 }
 
-void Camera::SetCameraRotation(glm::vec3 pos)
+void Camera::setRotation(glm::vec3 rotation)
 {
-	this->m_CamRotation = pos;
+	this->m_rotation = rotation;
 }
 
-void Camera::LockCamera()
+void Camera::lockCamera()
 {
 	//if (m_CamRotation.y < 0.0)
 	//	m_CamRotation.y = 360;
@@ -48,78 +47,63 @@ void Camera::LockCamera()
 	//	m_CamRotation.x = -90;
 }
 
-void Camera::MoveCamera(float distance, float direction)
+void Camera::moveCamera(float distance, float direction)
 {
-	float rad = (m_CamRotation.y + direction) * M_PI / 180.0;
+	float rad = (m_rotation.y + direction) * M_PI / 180.0;
 
-	m_CamPosition.x -= sin(rad) * distance;
-	m_CamPosition.z -= cos(rad) * distance;
+	m_position.x -= sin(rad) * distance;
+	m_position.z -= cos(rad) * distance;
 }
 
-void Camera::MoveCameraUp(float distance, float direction)
+void Camera::moveCameraUp(float distance, float direction)
 {
-	float rad = (m_CamRotation.y + direction) * M_PI / 180.0;
-	m_CamPosition.y += (sin(rad)*distance) + 1.0f;
+	float rad = (m_rotation.y + direction) * M_PI / 180.0;
+	m_position.y += (sin(rad)*distance) + 1.0f;
 }
 
-void Camera::UpdateControls(float moveSpeed, float mouseSpeed, bool mouseIn)
+void Camera::updateControls(float moveSpeed, float mouseSpeed, bool mouseIn)
 {
-	if (mouseIn)
-	{
+	if (mouseIn) {
 		// Get the current mouse position in the window
-		sf::Vector2i mousePos = sf::Mouse::getPosition(m_Engine->_window);
+		sf::Vector2i mousePos = sf::Mouse::getPosition(m_engine->_window);
 
 		// Get the x and y offset, reversed Y since y-coordinates range from bottom to top
-		float xOffset = mousePos.x - _previousMousePosition.x;
-		float yOffset = _previousMousePosition.y - mousePos.y;
+		float xOffset = mousePos.x - m_previousMousePosition.x;
+		float yOffset = m_previousMousePosition.y - mousePos.y;
 
 		// Update the previous mouse position
-		_previousMousePosition = mousePos;
+		m_previousMousePosition = mousePos;
 
 		float sensitivity = 0.05f;
 		xOffset *= sensitivity;
 		yOffset *= sensitivity;
 
 		// Apply the camera rotation
-		m_CamRotation.y += yOffset; //0.05f*xOffset; //(m_Engine->GetWindowMiddleWidth() - xOffset);
-		m_CamRotation.x += xOffset; //0.05f*yOffset; //(m_Engine->GetWindowMiddleHeight() - yOffset);
-		LockCamera();
+		m_rotation.y += yOffset; //0.05f*xOffset; //(m_Engine->GetWindowMiddleWidth() - xOffset);
+		m_rotation.x += xOffset; //0.05f*yOffset; //(m_Engine->GetWindowMiddleHeight() - yOffset);
+		lockCamera();
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			if (!m_pLockFront)
-				MoveCamera(moveSpeed, 0.0);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			if (!m_pLockBack)
-				MoveCamera(moveSpeed, 180.0);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			if (!m_pLockLeft)
-				MoveCamera(moveSpeed, 90.0);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			if (!m_pLockRight)
-				MoveCamera(moveSpeed, 270);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			m_CamPosition.y += moveSpeed;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		{
-			m_CamPosition.y -= moveSpeed;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			moveCamera(moveSpeed, 0.0);
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			moveCamera(moveSpeed, 180.0);
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			moveCamera(moveSpeed, 90.0);
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			moveCamera(moveSpeed, 270);
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			m_position.y += moveSpeed;
+		} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+			m_position.y -= moveSpeed;
 		}
 	}
-	m_Engine->RotateWorldMatrix_X(cos(glm::radians(m_CamRotation.y)) * cos(glm::radians(m_CamRotation.x))); //(-m_CamRotation.x);
-	m_Engine->RotateWorldMatrix_Y(sin(glm::radians(m_CamRotation.y)));  //(-m_CamRotation.y); // 
-	m_Engine->RotateWorldMatrix_Z(-m_CamRotation.z);
+
+	m_engine->RotateWorldMatrix_X(-m_rotation.x);
+	m_engine->RotateWorldMatrix_Y(-m_rotation.y);
+	m_engine->RotateWorldMatrix_Z(-m_rotation.z);
 }
 
-void Camera::UpdateCamera()
+void Camera::updateCamera()
 {
-	m_Engine->TranslateWorldMatrix(-m_CamPosition.x, -m_CamPosition.y - 2.0f, -m_CamPosition.z);
+	m_engine->TranslateWorldMatrix(-m_position.x, -m_position.y - 2.0f, -m_position.z);
 }

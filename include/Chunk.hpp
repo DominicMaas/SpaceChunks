@@ -1,15 +1,10 @@
-#ifndef CHUNK_HPP
-#define CHUNK_HPP
+#pragma once
 
 #include "Engine.hpp"
 #include "World.hpp"
 #include "Block.hpp"
 
-// Set the World Manager class here to prevent compile issues
-class World;
-
-class Chunk
-{
+class Chunk {
 public:
 	Chunk(glm::vec3 pos, Engine *engine, World *world, int id);
 
@@ -40,33 +35,30 @@ public:
 
 	Chunk* GetChunk(int x, int y, int z);
 
-	Block*** GetBlockArray()
+	Block*** blockArray()
 	{
-		return m_pBlocks;
+		return m_blocks;
 	}
 
-	int GetChunkId() {
-		return m_pChunkGlobalID;
+	int chunkId() {
+		return m_chunkGlobalID;
 	}
 
 private:	
 	// The chunk Position
 	glm::vec3 m_position;
 	// 3D array of blocks
-	Block*** m_pBlocks;
+	Block*** m_blocks;
 	// Boolean for when vhunk is modified
-	bool m_pChanged;
+	bool m_changed;
 	// Is the chunk actaully loaded
-	bool m_pLoaded = false;
+	bool m_loaded = false;
 
 	// The chunk ID
-	int m_pChunkGlobalID;
+	int m_chunkGlobalID;
 
-	// 
-	Engine *m_pRenderer;
-	World* m_pWorld;
+	Engine *m_renderer;
+	World* m_world;
 
-	GLuint m_pChunkID;
+	GLuint m_chunkID;
 };
-
-#endif // CHUNK_HPP

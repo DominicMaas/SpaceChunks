@@ -1,11 +1,9 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#pragma once
 
 #include "Engine.hpp"
 #include "Camera.hpp"
 
-class Player
-{
+class Player {
 public:
 	Player(glm::vec3 pos, glm::vec3 rot, Engine* engine);
 
@@ -52,5 +50,3 @@ private:
 	// Camera Class
 	Camera* m_Camera;
 };
-
-#endif // PLAYER_HPP
