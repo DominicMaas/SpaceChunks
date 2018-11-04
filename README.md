@@ -6,6 +6,8 @@ SpaceChunks
 
 ## Introduction
 
+Everything is currently broken at the moment, for a downloadable version, see the old commit history.
+
 SpaceChunks is an experimental voxel game that I orginally wrote in 2014. The code is quite messsy as I was very new to programming back then, and even newer to c++. I may clean up the code and fix issues when I have free time.
 
 Things I would like to do are:

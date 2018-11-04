@@ -22,7 +22,7 @@ public:
 	void updateControls(float moveSpeed, float mouseSpeed, bool mouseIn);
 	void updateCamera();
 
-	void LockMotion(Motion axis) 
+	void lockMotion(Motion axis) 
 	{
 		switch (axis) {
 		case Motion::Front:
@@ -40,7 +40,7 @@ public:
 		}
 	}
 
-	void UnlockMotion(int axis) 
+	void unlockMotion(int axis) 
 	{
 		switch (axis) {
 		case Motion::Front:

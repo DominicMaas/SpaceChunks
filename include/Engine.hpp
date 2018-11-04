@@ -22,7 +22,6 @@
 #include <thread>
 #include <sstream>
 
-
 #ifndef M_PI
 #define M_PI = 3.14159265358979
 #endif
@@ -31,8 +30,11 @@
 #define CHUNK_Y 64
 #define CHUNK_Z 16
 
-class Engine
-{
+class Engine {
+
+
+
+
 private:
 	// Functions that run on the engine
 	void(*m_InitFunc)();
@@ -114,69 +116,6 @@ public:
 	{
 		srand(time(0));
 		seed = rand();
-	}
-	
-	void Set3D()
-	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluPerspective(70.0f, (GLdouble)m_windowWidth / (GLdouble)m_windowHeight, 0.01, 1000.0);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_CULL_FACE);
-	}
-
-	void Set2D()
-	{
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, m_windowWidth, m_windowHeight, 0, 0.01, 1000.0);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_CULL_FACE);
-	}
-
-	void TranslateWorldMatrix(float x, float y, float z)
-	{
-		glTranslatef(x, y, z);
-	}
-
-	void TranslateWorldMatrix(glm::vec3 pos)
-	{
-		glTranslatef(pos.x, pos.y, pos.z);
-	}
-
-	void PushMatrix()
-	{
-		glPushMatrix();
-	}
-
-	void PopMatrix()
-	{
-		glPopMatrix();
-	}
-
-	void RotateWorldMatrix_X(float angle)
-	{
-		glRotatef(angle, 1, 0, 0);
-	}
-
-	void RotateWorldMatrix_Y(float angle)
-	{
-		glRotatef(angle, 0, 1, 0);
-	}
-
-	void RotateWorldMatrix_Z(float angle)
-	{
-		glRotatef(angle, 0, 0, 1);
 	}
 
 	std::string ConvertIntToString(int num)

@@ -7,16 +7,16 @@
 class Chunk {
 public:
 	Chunk(glm::vec3 pos, Engine *engine, World *world, int id);
-
-	void CreateChunk();
-
 	~Chunk();
 
-	void Render();
-	void Rebuild();
+	void create();
 
-	glm::vec3 GetCenter();
-	glm::vec3 GetPosition();
+	void render();
+	void rebuild();
+
+	glm::vec3 center();
+	glm::vec3 position();
+
 	Chunk* FindChunk(glm::vec3 pos);
 
 	BlockType GetTheoreticalBlock(glm::vec3 pos, glm::vec3 offset0, glm::vec3 offset1, glm::vec3 offset2);
@@ -40,7 +40,8 @@ public:
 		return m_blocks;
 	}
 
-	int chunkId() {
+	int chunkId() 
+	{
 		return m_chunkGlobalID;
 	}
 
