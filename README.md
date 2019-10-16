@@ -8,7 +8,11 @@ SpaceChunks
 
 Everything is currently broken at the moment, for a downloadable version, see the old commit history.
 
+**SEE https://github.com/DominicMaas/ProjectTitan FOR A SPIRTUAL SUCCESSOR**
+
 SpaceChunks is an experimental voxel game that I orginally wrote in 2014. The code is quite messsy as I was very new to programming back then, and even newer to c++. I may clean up the code and fix issues when I have free time.
+
+See Project Titan for something that works a bit better. Probably once again, not planning on updating it much. Was just getting back into c++. 
 
 Things I would like to do are:
 
